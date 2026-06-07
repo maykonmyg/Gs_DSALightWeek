@@ -1,4 +1,5 @@
-<img width="941" height="803" alt="image" src="https://github.com/user-attachments/assets/f325a865-966a-43f9-97e4-cf166fe63cf4" />
+<img width="1360" height="996" alt="image" src="https://github.com/user-attachments/assets/940909d4-0f63-46e5-8286-557671ee74ff" />
+
 
 
 # Monitoramento de Missão Espacial
