@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missão Espacial - Painel de Controlo</title>
+
+    <style>
+        :root {
+            --bg-main: #0f172a;
+            --bg-panel: #1e293b;
+            --border-color: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --primary: #2563eb;
+            --primary-hover: #3b82f6;
+            --danger: #dc2626;
+            --danger-hover: #ef4444;
+            
+
+            --success-text: #4ade80;
+            --danger-text: #f87171;
+            --info-text: #60a5fa; 
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.5;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .caixa {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .caixa.full-width {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-top: 0;
+            margin-bottom: 24px;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            margin-top: 16px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-hover);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 24px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-group button {
+            margin-top: 12px;
+        }
+
+        .btn-group button:first-of-type {
+            margin-top: 0;
+        }
+
+        .btn-danger {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--danger-text);
+            margin-top: 32px;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger);
+            border-color: var(--danger);
+            color: white;
+        }
+
+
+        .console {
+            background-color: #020617;
+            border-radius: 8px;
+            padding: 16px;
+            min-height: 180px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        .linha-comando {
+            margin-bottom: 8px;
+        }
+
+        .alerta { color: var(--danger-text); }
+        .ok { color: var(--success-text); }
+        .info { color: var(--text-main); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Ares V</h1>
+        <div class="subtitle">Sistema de Monitorização de Voo</div>
+    </header>
+
+    <div class="dashboard">
+        
+        <!-- Painel de Inserção -->
+        <div class="caixa">
+            <h2>Módulo de Sensores</h2>
+
+            <label for="temperatura">Temperatura do Núcleo (°C)</label>
+            <input type="number" id="temperatura" placeholder="Ex: 75">
+
+            <label for="energia">Reservas de Energia (%)</label>
+            <input type="number" id="energia" placeholder="Ex: 60">
+
+            <label for="comunicacao">Estado da Comunicação</label>
+            <select id="comunicacao">
+                <option value="1">Operacional</option>
+                <option value="0">Falha de Sinal</option>
+            </select>
+
+            <button onclick="inserirDados()">Registar Dados</button>
+        </div>
+
+        <!-- Painel de Comandos -->
+        <div class="caixa btn-group">
+            <h2>Comandos do Sistema</h2>
+
+            <button onclick="visualizarStatus()">Verificar Estado Atual</button>
+            <button onclick="executarAnalise()">Executar Diagnóstico</button>
+            <button onclick="mostrarHistorico()">Ver Histórico de Leituras</button>
+            
+            <button class="btn-danger" onclick="encerrarSistema()">Encerrar Sessão</button>
+        </div>
+
+        <!-- Ecrã Principal de Output -->
+        <div class="caixa full-width">
+            <h2>Registo do Sistema</h2>
+            <div class="console">
+                <div id="resultado" class="linha-comando">A aguardar introdução de dados...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let temperatura = null;
+        let energia = null;
+        let comunicacao = null;
+        let historico = [];
+
+        function formatarLinha(texto) {
+            return `<div class="linha-comando">${texto}</div>`;
+        }
+
+        function inserirDados() {
+            let tempInput = document.getElementById("temperatura").value;
+            let energiaInput = document.getElementById("energia").value;
+
+            if (tempInput === "" || energiaInput === "") {
+                document.getElementById("resultado").innerHTML = formatarLinha("<span class='alerta'>Erro: Preencha todos os campos do sensor.</span>");
+                return;
+            }
+
+            temperatura = Number(tempInput);
+            energia = Number(energiaInput);
+            comunicacao = Number(document.getElementById("comunicacao").value);
+
+            historico.push([temperatura, energia, comunicacao]);
+            
+            document.getElementById("resultado").innerHTML = 
+                formatarLinha("<span class='ok'>✓ Dados registados com sucesso no sistema.</span>");
+        }
+
+        function visualizarStatus() {
+            if (temperatura == null) {
+                document.getElementById("resultado").innerHTML = formatarLinha("<span class='alerta'>Aviso: Nenhum dado disponível na memória.</span>");
+                return;
+            }
+
+            let statusComunicacao = comunicacao == 1 ? "<span class='ok'>Operacional</span>" : "<span class='alerta'>Falha</span>";
+            let statusTemp = temperatura > 80 ? `<span class='alerta'>${temperatura}°C (Elevada)</span>` : `<span class='info'>${temperatura}°C</span>`;
+            let statusEnergia = energia < 20 ? `<span class='alerta'>${energia}% (Baixa)</span>` : `<span class='info'>${energia}%</span>`;
+
+            document.getElementById("resultado").innerHTML =
+                formatarLinha("<strong>Estado Atual:</strong>") +
+                formatarLinha(`Temperatura : ${statusTemp}`) +
+                formatarLinha(`Energia     : ${statusEnergia}`) +
+                formatarLinha(`Comunicação : ${statusComunicacao}`);
+        }
+
+        function executarAnalise() {
+            if (temperatura == null) {
+                document.getElementById("resultado").innerHTML = formatarLinha("<span class='alerta'>Erro: Insira dados antes de executar o diagnóstico.</span>");
+                return;
+            }
+
+            let resposta = formatarLinha("A executar diagnóstico de rotina...<br>");
+            let problemas = 0;
+
+            if (temperatura > 80) {
+                resposta += formatarLinha("• <span class='alerta'>Aviso: Sobreaquecimento detetado.</span>");
+                problemas++;
+            }
+
+            if (energia < 20) {
+                resposta += formatarLinha("• <span class='alerta'>Aviso: Nível de energia crítico.</span>");
+                problemas++;
+            }
+
+            if (comunicacao == 0) {
+                resposta += formatarLinha("• <span class='alerta'>Aviso: Sem ligação à base de controlo.</span>");
+                problemas++;
+            }
+
+            if (problemas === 0) {
+                resposta += formatarLinha("<span class='ok'>✓ Todos os sistemas a operar dentro dos parâmetros normais.</span>");
+            }
+
+            document.getElementById("resultado").innerHTML = resposta;
+        }
+
+        function mostrarHistorico() {
+            if (historico.length == 0) {
+                document.getElementById("resultado").innerHTML = formatarLinha("<span class='alerta'>O histórico de registos está vazio.</span>");
+                return;
+            }
+
+            let texto = formatarLinha("<strong>Histórico de Leituras:</strong><br>");
+
+            for (let i = 0; i < historico.length; i++) {
+                let statusCom = historico[i][2] == 1 ? "Operacional" : "Falha";
+                texto += formatarLinha(`Registo #${i + 1} | Temp: ${historico[i][0]}°C | Energia: ${historico[i][1]}% | Comms: ${statusCom}`);
+            }
+
+            document.getElementById("resultado").innerHTML = texto;
+        }
+
+        function encerrarSistema() {
+            temperatura = null;
+            energia = null;
+            comunicacao = null;
+            historico = [];
+
+            document.getElementById("temperatura").value = "";
+            document.getElementById("energia").value = "";
+            document.getElementById("comunicacao").value = "1";
+
+            document.getElementById("resultado").innerHTML = formatarLinha("Sessão encerrada. Sistema redefinido.");
+        }
+    </script>
+
+</body>
+</html>
