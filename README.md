@@ -1,3 +1,6 @@
+<img width="941" height="803" alt="image" src="https://github.com/user-attachments/assets/f325a865-966a-43f9-97e4-cf166fe63cf4" />
+
+
 # Monitoramento de Missão Espacial
 
 ## Descrição
