@@ -75,6 +75,6 @@ Economia de energia recomendada
 Falha de comunicação detectada
 ```
 
-![Demonstração prática](demonstracao.png)
+
 
 
